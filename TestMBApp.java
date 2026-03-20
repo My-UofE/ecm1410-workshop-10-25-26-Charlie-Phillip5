@@ -24,5 +24,15 @@ public class TestMBApp{
        for(int postID : posts){
         System.out.println(mb.getFormattedPost(postID));
        }
+
+
+    mb.addPost("Ellie", "Java IDE", "Can someone recommend a Java IDE?", 20148);
+    mb.addPost("Fred Fansha", "Java IDE", "I just use VS Code", 20149);
+
+    int[] postsByDate = mb.searchPostsByDate(20147, 20149);
+
+    for(int ID : postsByDate){
+        System.out.println(mb.getFormattedPost(ID));
+    }
     }
 }

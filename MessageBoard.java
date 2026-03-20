@@ -41,9 +41,13 @@ public class MessageBoard implements Serializable {
         return newPost.getPostID();
     }
 
-    public int addPost(String author, String subject, String message){
-        Post newPost = new Post(author, subject, message, date)
+    public int addPost(String author, String subject, String message, int epochDate) throws IllegalArgumentException{
+        Post newPost = new Post(author, subject, message, LocalDate.ofEpochDay(epochDate));
+        posts.add(newPost);
+        return newPost.getPostID();
     }
+
+    
 
     public String getFormattedPost(int postID) throws IDInvalidException{
         for(Post post : posts){
@@ -82,5 +86,22 @@ public class MessageBoard implements Serializable {
         if(!foundPost){
             throw new IDInvalidException("Post ID not found, cannot be deleted");
         }
+    }
+
+    public int[] searchPostsByDate(int startDate, int endDate){
+        int num = 0;
+        for(Post post: posts){
+            if(post.getDate() >= startDate && post.getDate() <= endDate){
+                num++;
+            }
+        }
+        int[] postIDs = new int[num];
+        num = 0;
+        for(int i = 0; i<posts.size(); i++){
+           if(posts.get(i).getDate() >= startDate && posts.get(i).getDate() <= endDate){
+                postIDs[num++] = posts.get(i).getPostID();
+            }
+        }
+        return postIDs;
     }
 }
